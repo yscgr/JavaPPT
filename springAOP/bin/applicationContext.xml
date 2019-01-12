@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://www.springframework.org/schema/beans" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.3.xsd ">
+<!-- 配置被代理对象 -->
+<bean id="service" class="com.xk.aop.Service"></bean>
+<!-- 配置前置通知 -->
+<bean id="myMethodBeforeAdvice" class="com.xk.aop.MyMethodBeforeAdvice"></bean>
+<!-- 配置后置通知 -->
+<bean id="myAfterReturningAdvice" class="com.xk.aop.MyAfterReturningAdvice"/>
+<!-- 配置环绕通知 -->
+<bean id="myMethodInterceptor" class="com.xk.aop.MyMethodInterceptor"/>
+<!-- 配置异常通知 -->
+<bean id="myThrowsAdvice" class="com.xk.aop.MyThrowsAdvice"/>
+<!-- 配置代理对象 -->
+<bean id="proxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+	<!-- 代理的接口集合 -->
+	<property name="proxyInterfaces">
+		<list>
+			<value>com.xk.aop.ServiceInterface</value>
+			<value>com.xk.aop.ServiceInterface2</value>
+		</list>
+	</property>
+	<!--配置通知集合 -->
+	<property name="interceptorNames">
+		<list>
+			<value>myMethodBeforeAdvice</value>
+			<value>myAfterReturningAdvice</value>
+			<value>myMethodInterceptor</value>
+			<value>myThrowsAdvice</value>
+		</list>
+	</property>
+	<!-- 配置代理了哪些对象 -->
+	<property name="target" ref="service"></property>
+</bean>
+</beans>
